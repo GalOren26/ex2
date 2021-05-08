@@ -9,9 +9,10 @@ in order to improve performance we used  apply drop out for the net according th
 Network Regularization", by Zaremba meaning only between the layers and on input of first layer and output of last layer but not between the steps of each layer
 in order to preserve the memory capabilty.
 
-### How to run :
-#### launch the project 
+## How to run :
+### launch the project 
   there is sevreal way to run this project :
+  
   1.the easist one is simply enter this link https://colab.research.google.com/drive/1S8K23e0BXSqZnnAWQeIqVf3P4uTUwPP6?usp=sharing
   open a colab project and type ctrl+F9 to run all cell toghter then it automaticaly clone files from this project and start the exrice .
   
