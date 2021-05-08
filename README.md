@@ -14,7 +14,9 @@ in order to preserve the memory capabilty.
   there is sevreal way to run this project :
   1.the easist one is simply enter this link https://colab.research.google.com/drive/1S8K23e0BXSqZnnAWQeIqVf3P4uTUwPP6?usp=sharing
   open a colab project and type ctrl+F9 to run all cell toghter then it automaticaly clone files from this project and start the exrice .
+  
   2. import the appended ex2.iptnb at the repo to colab by  and then do what described at 1 .
+  
   3. clone the repo and run loccaly by run the ptb-lm.py file in editor like spyder or simalar make sure that you have all the dependencies istalled (e.g pytorch ,matplotlib ext)
   if not just install it from pip ;)
   #### chose configuration and change paramaters 
