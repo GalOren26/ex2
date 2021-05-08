@@ -25,6 +25,7 @@ class Rnn(nn.Module):
     self.num_layers = num_layers
     self.dropout = nn.Dropout(1 - dp_keep_prob)
     self.net_name=net
+    self.first_lr=lr
     self.word_embeddings = nn.Embedding(vocab_size, embedding_dim)
     if net=="lstm":
         self.net = nn.LSTM(input_size=embedding_dim,
@@ -39,14 +40,13 @@ class Rnn(nn.Module):
                                 dropout=1 - dp_keep_prob)
     self.sm_fc = nn.Linear(in_features=embedding_dim,
                            out_features=vocab_size)
-    # self.lr=nn.Parameter(tensor(lr),requires_grad=False)
-    # self.ephocs_witout_decay=nn.Parameter(tensor(ephocs_witout_decay),requires_grad=False)
-    # self.lr_decay_base=nn.Parameter(tensor(lr_decay_base),requires_grad=False)
     self.lr=lr
     self.ephocs_witout_decay=ephocs_witout_decay
     self.lr_decay_base=lr_decay_base
     self.init_weights()
-
+    self.train_perplexity=[]
+    self.test_perplexity=[]
+    self.already_decayed=False
   def init_weights(self):
     init_range = 0.1
     nn.init.xavier_normal_(self.word_embeddings.weight.data)
@@ -70,16 +70,11 @@ class Rnn(nn.Module):
     else : 
       embeds = self.dropout(self.word_embeddings(inputs))
     net_out, hidden = self.net(embeds, hidden)
-    net_out = self.dropout(net_out)
+    if self.dp_keep_prob!=1:
+       net_out = self.dropout(net_out)
     logits = self.sm_fc(net_out.view(-1, self.embedding_dim))
     return logits.view(self.seq_len, self.batch_size, self.vocab_size), hidden
 
-# def repackage_hidden(h):
-#        """Wraps hidden states in new Tensors, to detach them from their history."""
-#         if isinstance(h, torch.Tensor):
-#             return h.detach()
-#         else:
-#             return tuple(repackage_hidden(v) for v in h)
 def repackage_hidden(h):
   """Wraps hidden states in new Variables, to detach them from their history."""
   if type(h) is  not tuple:
